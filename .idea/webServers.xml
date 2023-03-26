@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f51e79b0-1503-4f4a-aa8b-dcbbaa2ef326" name="腾讯服务器">
+        <fileTransfer rootFolder="/home/ubuntu" accessType="SFTP" host="162.14.73.93" port="22" sshConfigId="1ed2bd05-26ba-474b-9410-dd8ce8896a0b" sshConfig="ubuntu@162.14.73.93:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="026c48ef-d37d-4f40-90a3-47a0addff475" name="home-server">
+        <fileTransfer rootFolder="/home/h4xx0rz" accessType="SFTP" host="10.147.17.35" port="22" sshConfigId="41ee4def-45f6-4bc1-839a-2f53f55c594d" sshConfig="h4xx0rz@10.147.17.35:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

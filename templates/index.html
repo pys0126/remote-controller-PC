@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <script src="{{ url_for('static', filename='layer/layer.js') }}"></script>
+    <title>远程控制</title>
+</head>
+<body style="background-image: url(https://mfiles.alphacoders.com/828/thumb-1920-828209.jpg); background-repeat:no-repeat; background-attachment: fixed; background-size: 100% 100%;">
+    <div class="layui-fluid" style="margin-top: 5px;margin-bottom: 10px;">
+        <div class="layui-row">
+            <h2 style="text-align: center;background-color: rgba(120, 137, 145, 0.356);font-weight: 50px;color: rgba(88, 81, 189, 0.76);margin-bottom: 10px;">当前界面</h2>
+            <div class="layui-panel" style="border: 0px;margin-bottom: 20px;">
+                <div style="padding: 0px;">
+                    <div class="layui-col-xs" id="screen_div">
+                        
+                        <iframe id="screen" src="{{ url_for('static', filename='screen.png') }}" style="width: 100%;border: 0px;height: 300px;"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="text-align: center;background-color: rgba(120, 137, 145, 0.356);font-weight: 50px;color: rgba(52, 112, 168, 0.76);">控制电脑</h2>
+            <div class="layui-col-xs" style="margin-bottom: 10px;">
+                <button onclick="halt();" style="margin-top: 10px;width: 100%;border-radius: 5px;color: black;" class="layui-btn layui-btn-lg layui-btn-danger">关闭计算机</button>
+                <br>
+                <button onclick="exit();" style="margin-top: 10px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-btn-lg">取消关机</button>
+            </div>
+
+            <br>
+            <h2 style="text-align: center;background-color: rgba(120, 137, 145, 0.356);font-weight: 50px;color: rgba(52, 168, 153, 0.76);">控制音乐</h2>
+            <div class="layui-col-space10">
+                <div class="layui-col-xs6">
+                    <button onclick="next();" style="margin-top: 10px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-bg-cyan">切换下一首</button>
+                </div>
+                <div class="layui-col-xs6">
+                    <button onclick="back();" style="margin-top: 10px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-bg-cyan">返回上一首</button>
+                </div>
+                
+                <div class="layui-col-xs">
+                    <button onclick="orto();" style="margin-top: 5px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-btn-lg layui-bg-black">暂停/开始</button>
+                </div>
+
+                <div class="layui-col-xs6">
+                    <button onclick="add();" style="margin-top: 5px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-bg-cyan">增加音量</button>
+                </div>
+                <div class="layui-col-xs6">
+                    <button onclick="min();" style="margin-top: 5px;width: 100%;border-radius: 5px;color: rgb(0, 0, 0);" class="layui-btn layui-bg-cyan">减小音量</button>
+                </div>
+
+            </div>
+  
+        </div>
+    </div>
+</body>
+<script>
+    function screen(){
+        var screen = document.getElementById("screen");
+        /* var screen_div = document.getElementById("screen_div"); */
+        // screen.remove();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/screenshot", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            console.log("screenshot saved");
+            screen.contentWindow.location.reload();
+            /* screen_div.innerHTML = '<img id="screen" src="/static/screen.png" alt="截图" style="width: 100%;">'; */
+        } else {
+            console.log("获取错误");
+        }
+    }
+    window.setInterval("screen()",3000);
+
+    function halt() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/halt", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.alert('计算机将在1分钟内关机！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function exit() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/close", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.alert('已取消关机计划！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function add() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/add", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.msg('音量增加2！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function min() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/min", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.msg('音量减小2！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function next() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/next", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.alert('已切换下一首！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function back() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/back", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.alert('已返回上一首！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+
+    function orto() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/or", false);
+        xhr.send();
+        if (xhr.status == 200) {
+            layer.alert('已暂停/开始！');
+        } else {
+            layer.alert('请重试！');
+        }
+    }
+</script>
+</html>
